@@ -1,5 +1,5 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Maintainer: 
+" Maintainer:
 "       Amir Salihefendic — @amix3k
 "
 " Awesome_version:
@@ -26,34 +26,9 @@
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"Append closing characters
-"inoremap ( ()<Esc>i
-"inoremap { {}<Esc>i
-"inoremap {<CR> {<CR>}<Esc>O
-"inoremap [ []<Esc>i
-"inoremap < <><Esc>i
-"inoremap ' ''<Esc>i
-"inoremap " ""<Esc>i
-
-" Split navigations
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
-
-" Cursor shape
-let &t_SI = "\<esc>[5 q" " I beam cursor for insert mode
-let &t_EI = "\<esc>[2 q" " block cursor for normal mode
-let &t_SR = "\<esc>[3 q" " underline cursor for replace mode
-
-" Shebang
-augroup Shebang
-    autocmd BufNewFile *.py 0put =\"#!/usr/bin/env python3\<nl>\<nl>\"|$
-    autocmd BufNewFile *.sh,*.bash 0put =\"#!/bin/bash\<nl>\<nl>\"|$
-augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => General
+" = Custom settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Use Vim settings, rather than Vi
 set nocompatible
@@ -62,16 +37,46 @@ set nocompatible
 set number
 set relativenumber
 
-" Set cursor line
-"set cursorline
-"hi CursorLine cterm=NONE ctermbg=darkgrey
-
 " Enable mouse for scrolling and resizing
 set mouse=a
 
 " Set the window's title, reflecting the file currently being editing
 set title
 
+" Python syntax
+let python_highlight_all=1
+
+" Highlight unwanted spaces
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+autocmd BufWinLeave * call clearmatches()
+
+" Cursor shape
+let &t_SI = "\<esc>[5 q" " I beam cursor for insert mode
+let &t_EI = "\<esc>[2 q" " block cursor for normal mode
+let &t_SR = "\<esc>[3 q" " underline cursor for replace mode
+
+" Close brackets
+"inoremap " ""<left>
+"inoremap ' ''<left>
+"inoremap ( ()<left>
+"inoremap [ []<left>
+"inoremap { {}<left>
+"inoremap {<CR> {<CR>}<ESC>O
+
+" Shebang
+augroup Shebang
+    autocmd BufNewFile *.py 0put =\"#!/usr/bin/env python3\<nl>\<nl>\"|$
+    autocmd BufNewFile *.sh,*.bash 0put =\"#!/bin/bash\<nl>\<nl>\"|$
+augroup END
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => General
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Sets how many lines of history VIM has to remember
 set history=500
 
@@ -90,7 +95,7 @@ let mapleader = ","
 " Fast saving
 nmap <leader>w :w!<cr>
 
-" :W sudo saves the file 
+" :W sudo saves the file
 " (useful for handling the permission-denied error)
 command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
 
@@ -102,7 +107,7 @@ command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
 set so=7
 
 " Avoid garbled characters in Chinese language windows OS
-let $LANG='en' 
+let $LANG='en'
 set langmenu=en
 source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
@@ -134,24 +139,23 @@ set whichwrap+=<,>,h,l
 " Ignore case when searching
 set ignorecase
 
-" When searching try to be smart about cases 
+" When searching try to be smart about cases
 set smartcase
 
 " Highlight search results
 set hlsearch
 
 " Makes search act like search in modern browsers
-set incsearch 
+set incsearch
 
 " Don't redraw while executing macros (good performance config)
-set lazyredraw 
+set lazyredraw
 
 " For regular expressions turn magic on
 set magic
 
 " Show matching brackets when text indicator is over them
-set showmatch 
- 
+set showmatch
 " How many tenths of a second to blink when matching brackets
 set mat=2
 
@@ -161,6 +165,12 @@ set novisualbell
 set t_vb=
 set tm=500
 
+" Properly disable sound on errors on MacVim
+if has("gui_macvim")
+    autocmd GUIEnter * set vb t_vb=
+endif
+
+
 " Add a bit extra margin to the left
 set foldcolumn=1
 
@@ -169,8 +179,19 @@ set foldcolumn=1
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Enable syntax highlighting
-let python_highlight_all=1
 syntax enable
+
+" Enable 256 colors palette in Gnome Terminal
+" if $COLORTERM == 'gnome-terminal'
+"     set t_Co=256
+" endif
+
+" try
+"     colorscheme desert
+" catch
+" endtry
+
+set background=dark
 
 " Set extra options when running in GUI mode
 if has("gui_running")
@@ -181,7 +202,7 @@ if has("gui_running")
 endif
 
 " Set utf8 as standard encoding and en_US as the standard language
-set encoding=utf-8
+set encoding=utf8
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
@@ -206,18 +227,16 @@ set expandtab
 set smarttab
 
 " 1 tab == 4 spaces
-set tabstop=4
-set softtabstop=4
 set shiftwidth=4
-set textwidth=79
+set tabstop=4
 
 " Linebreak on 500 characters
 set lbr
 set tw=500
 
-set ai
-set si
-set wrap
+set ai "Auto indent
+set si "Smart indent
+set wrap "Wrap lines
 
 
 """"""""""""""""""""""""""""""
@@ -258,8 +277,8 @@ map <leader>h :bprevious<cr>
 map <leader>tn :tabnew<cr>
 map <leader>to :tabonly<cr>
 map <leader>tc :tabclose<cr>
-map <leader>tm :tabmove 
-map <leader>t<leader> :tabnext 
+map <leader>tm :tabmove
+map <leader>t<leader> :tabnext
 
 " Let 'tl' toggle between this and the last accessed tab
 let g:lasttab = 1
@@ -274,7 +293,7 @@ map <leader>te :tabedit <C-r>=expand("%:p:h")<cr>/
 " Switch CWD to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
 
-" Specify the behavior when switching between buffers 
+" Specify the behavior when switching between buffers
 try
   set switchbuf=useopen,usetab,newtab
   set stal=2
@@ -391,7 +410,7 @@ endfunction
 
 function! CmdLine(str)
     call feedkeys(":" . a:str)
-endfunction 
+endfunction
 
 function! VisualSelection(direction, extra_filter) range
     let l:saved_reg = @"

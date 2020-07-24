@@ -11,7 +11,7 @@ window:
     y: 10
 
   dynamic_padding: false
-  decorations: none
+  decorations: full
   startup_mode: Windowed
   title: Alacritty
 
@@ -36,7 +36,7 @@ font:
     family: Fira Code
     style: Bold Italic
 
-  size: 12
+  size: 8
 
   offset:
     x: 0
@@ -52,7 +52,7 @@ visual_bell:
   animation: EaseOutExpo
   duration: 0
 
-background_opacity: 0.8
+background_opacity: 0.9
 
 selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
