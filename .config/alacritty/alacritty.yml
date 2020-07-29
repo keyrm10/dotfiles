@@ -7,17 +7,17 @@ window:
     lines: 0
 
   padding:
-    x: 10
-    y: 10
+    x: 2
+    y: 2
 
   dynamic_padding: false
-  decorations: full
+  decorations: none
   startup_mode: Windowed
   title: Alacritty
 
 scrolling:
   history: 5000
-  multiplier: 1
+  multiplier: 3
 
 font:
   normal:
